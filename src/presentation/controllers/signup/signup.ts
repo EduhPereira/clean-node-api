@@ -12,7 +12,7 @@ export class SignUpController implements Controller {
     this.addAccount = addAccount
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const requireFields = ['name', 'email', 'password', 'passwordConfirmation']
     const { name, email, password, passwordConfirmation } = httpRequest.body
     try {
@@ -30,7 +30,7 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('passwordConfirmation'))
       }
 
-      const newAccount = this.addAccount.add({
+      const newAccount = await this.addAccount.add({
         name,
         email,
         password
